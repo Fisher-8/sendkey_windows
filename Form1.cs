@@ -14,12 +14,13 @@ namespace SendKey_Windows
         static extern bool UnregisterHotKey(IntPtr hWnd, int id);
 
         static string fnKey = "F1";
-        static int fnKeyNm = 112, enterDelay = 200;
+        static int fnKeyNm = 112, enterDelay = 200, keyDelay = 10;
 
         public Form1(string[] param)
         {
             if (param.Length > 0) { int.TryParse(param[0], out fnKeyNm); if (fnKeyNm >= 1 && fnKeyNm <= 24) { fnKey = "F" + fnKeyNm.ToString(); fnKeyNm = +fnKeyNm + 111; } }
             if (param.Length > 1) { int.TryParse(param[1], out enterDelay); if (!(enterDelay >= 0 && enterDelay <= 9999)) { enterDelay = 200; } }
+            if (param.Length > 2) { int.TryParse(param[1], out keyDelay); if (!(keyDelay >= 0 && keyDelay <= 999)) { keyDelay = 10; } }
             InitializeComponent();
         }
 
@@ -45,20 +46,20 @@ namespace SendKey_Windows
                     switch (x)
                     {
                         //case 0: SendKeys.Send("{ENTER}"); break;
-                        case 1: SendKeys.Send("{ENTER}"); Task.Delay(enterDelay).Wait(); break;
-                        case 2: SendKeys.Send("{+}"); break;
-                        case 3: SendKeys.Send("{^}"); break;
-                        case 4: SendKeys.Send("{%}"); break;
-                        case 5: SendKeys.Send("{~}"); break;
-                        case 6: SendKeys.Send("{(}"); break;
-                        case 7: SendKeys.Send("{)}"); break;
-                        case 8: SendKeys.Send("{{}"); break;
-                        case 9: SendKeys.Send("{}}"); break;
+                        case 1: SendKeys.SendWait("{ENTER}"); Task.Delay(enterDelay).Wait(); break;
+                        case 2: SendKeys.SendWait("{+}"); Task.Delay(keyDelay).Wait(); break;
+                        case 3: SendKeys.SendWait("{^}"); Task.Delay(keyDelay).Wait(); break;
+                        case 4: SendKeys.SendWait("{%}"); Task.Delay(keyDelay).Wait(); break;
+                        case 5: SendKeys.SendWait("{~}"); Task.Delay(keyDelay).Wait(); break;
+                        case 6: SendKeys.SendWait("{(}"); Task.Delay(keyDelay).Wait(); break;
+                        case 7: SendKeys.SendWait("{)}"); Task.Delay(keyDelay).Wait(); break;
+                        case 8: SendKeys.SendWait("{{}"); Task.Delay(keyDelay).Wait(); break;
+                        case 9: SendKeys.SendWait("{}}"); Task.Delay(keyDelay).Wait(); break;
                     }
                 }
                 else
                 {
-                    SendKeys.Send(c.ToString());
+                    SendKeys.Send(c.ToString()); Task.Delay(keyDelay).Wait();
                 }
             }
         }
