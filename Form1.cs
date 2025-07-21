@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SendKey_Windows
@@ -12,14 +13,19 @@ namespace SendKey_Windows
         [DllImport("user32")]
         static extern bool UnregisterHotKey(IntPtr hWnd, int id);
 
-        public Form1()
+        static string fnKey = "F1";
+        static int fnKeyNm = 112, enterDelay = 200;
+
+        public Form1(string[] param)
         {
+            if (param.Length > 0) { int.TryParse(param[0], out fnKeyNm); if (fnKeyNm >= 1 && fnKeyNm <= 24) { fnKey = "F" + fnKeyNm.ToString(); fnKeyNm = +fnKeyNm + 111; } }
+            if (param.Length > 1) { int.TryParse(param[1], out enterDelay); if (!(enterDelay >= 0 && enterDelay <= 9999)) { enterDelay = 200; } }
             InitializeComponent();
         }
 
         private void fProgram_Load(object sender, EventArgs e)
         {
-            RegisterHotKey(this.Handle, 31196, 0, 0x70);
+            RegisterHotKey(this.Handle, 31196, 0, (byte)fnKeyNm);
         }
 
         private void fProgram_Close(object sender, FormClosingEventArgs e)
@@ -27,7 +33,7 @@ namespace SendKey_Windows
             UnregisterHotKey(this.Handle, 31196);
         }
 
-        char[] cArray = { '\n', '\r', '+', '^', '%', '~'};
+        char[] cArray = { '\n', '\r', '+', '^', '%', '~', '(', ')', '{', '}'};
 
         private void InputKeys(string s)
         {
@@ -39,11 +45,15 @@ namespace SendKey_Windows
                     switch (x)
                     {
                         //case 0: SendKeys.Send("{ENTER}"); break;
-                        case 1: SendKeys.Send("{ENTER}"); break;
+                        case 1: Task.Delay(enterDelay).Wait(); SendKeys.Send("{ENTER}"); break;
                         case 2: SendKeys.Send("{+}"); break;
                         case 3: SendKeys.Send("{^}"); break;
                         case 4: SendKeys.Send("{%}"); break;
                         case 5: SendKeys.Send("{~}"); break;
+                        case 6: SendKeys.Send("{(}"); break;
+                        case 7: SendKeys.Send("{)}"); break;
+                        case 8: SendKeys.Send("{{}"); break;
+                        case 9: SendKeys.Send("{}}"); break;
                     }
                 }
                 else
