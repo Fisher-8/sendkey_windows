@@ -20,7 +20,7 @@ namespace SendKey_Windows
         {
             if (param.Length > 0) { int.TryParse(param[0], out fnKeyNm); if (fnKeyNm >= 1 && fnKeyNm <= 24) { fnKey = "F" + fnKeyNm.ToString(); fnKeyNm = +fnKeyNm + 111; } }
             if (param.Length > 1) { int.TryParse(param[1], out enterDelay); if (!(enterDelay >= 0 && enterDelay <= 9999)) { enterDelay = 200; } }
-            if (param.Length > 2) { int.TryParse(param[1], out keyDelay); if (!(keyDelay >= 0 && keyDelay <= 999)) { keyDelay = 10; } }
+            if (param.Length > 2) { int.TryParse(param[2], out keyDelay); if (!(keyDelay >= 0 && keyDelay <= 999)) { keyDelay = 10; } }
             InitializeComponent();
         }
 
