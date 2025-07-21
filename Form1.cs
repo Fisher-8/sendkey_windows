@@ -45,7 +45,7 @@ namespace SendKey_Windows
                     switch (x)
                     {
                         //case 0: SendKeys.Send("{ENTER}"); break;
-                        case 1: Task.Delay(enterDelay).Wait(); SendKeys.Send("{ENTER}"); break;
+                        case 1: SendKeys.Send("{ENTER}"); Task.Delay(enterDelay).Wait(); break;
                         case 2: SendKeys.Send("{+}"); break;
                         case 3: SendKeys.Send("{^}"); break;
                         case 4: SendKeys.Send("{%}"); break;
